@@ -1,7 +1,7 @@
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import toCollect.Book;
 
 import java.io.File;
+import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class lab5
@@ -27,14 +27,20 @@ public class lab5
             return;
         }
 
-        Book book = new Book();
-        book.setName("book 1");
-        book.setAuthor("author 1");
-        book.setLocation(1,1);
-        book.setNumOfPages(228);
-        book.setPrintDate("01-01-2001");
-        book.write(fileName);
-        book.write(fileName);
+
+        PriorityQueue<Book> queue = new PriorityQueue<>(20, Book::compareTo);
+
+        Book.readCollectionFromFile(queue, fileName);
+
+        System.out.print("\n");
+        Book newBook = new Book();
+        newBook.setName("f");
+        newBook.setAuthor("kappa");
+        newBook.setNumOfPages(666);
+        queue.add(newBook);
+
+        Book.writeCollectionToFile(queue, fileName);
+
 
     }
 }

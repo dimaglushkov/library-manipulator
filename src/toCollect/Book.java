@@ -2,38 +2,74 @@ package toCollect;
 
 import java.io.*;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 
-public class Book
+public class Book implements Comparable<Book>
 {
     private String name;
     private String author;
     private int numOfPages;
     private BookLocation location;
-    private ZonedDateTime creationDate;
+    private Date creationDate;
 
     public Book()
     {
         location = new BookLocation();
-        creationDate = new ZonedDateTime()
+        creationDate = new Date();
     }
 
-    public void write(String fileName)
+    public static void writeCollectionToFile(Collection<Book> collection, String fileName)
     {
         try
         {
             FileWriter writer = new FileWriter(fileName);
-            writer.write(name + "," + author + "," + numOfPages + ", \"" + location.cupboard + "," + location.shelf + "\"," + printDate.toString());
+            writer.close();
+            writer = new FileWriter(fileName);
+
+            for(Book a : collection)
+            {
+                writer.write(a.name + "," + a.author + "," + a.numOfPages + "," + a.location.cupboard + "," + a.location.shelf + "," + a.creationDate.toString() + "\n");
+            }
+            writer.close();
         }
-        catch (IOException ignored)
+        catch (IOException e)
         {
+            e.printStackTrace();
         }
     }
 
-    public void read(String filename) throws FileNotFoundException
+    public static void readCollectionFromFile(Collection<Book> collection, String fileName)
     {
-        InputStreamReader reader = new InputStreamReader(new FileInputStream(filename));
+        String separator = ",";
+        String line;
+        try
+        {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
+
+            while ((line = reader.readLine()) != null && line.length() > 2)
+            {
+                Book book = new Book();
+                String[] values = line.split(separator);
+                book.setName(values[0]);
+                book.setAuthor(values[1]);
+                book.setNumOfPages(Integer.valueOf(values[2]));
+                book.setLocation(Integer.valueOf(values[3]), Integer.valueOf(values[4]));
+                book.setCreationDate(new Date());
+                collection.add(book);
+            }
+
+            reader.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
     }
+
+
 
     public String getName()
     {
@@ -76,10 +112,20 @@ public class Book
         this.location.shelf = shelf;
     }
 
-    public ZonedDateTime getCreationDate()
+    public void setCreationDate(Date creationDate)
+    {
+        this.creationDate = creationDate;
+    }
+
+    public Date getCreationDate()
     {
         return creationDate;
     }
 
+    @Override
+    public int compareTo(Book o)
+    {
+        return this.name.compareTo(o.getName());
+    }
 
 }
