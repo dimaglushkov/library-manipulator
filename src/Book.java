@@ -1,23 +1,16 @@
-package toCollect;
-
 import java.io.*;
-import java.time.ZonedDateTime;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
 
 public class Book implements Comparable<Book>
 {
     private String name;
     private String author;
-    private int numOfPages;
+    private int size;
     private BookLocation location;
-    private Date creationDate;
 
     public Book()
     {
         location = new BookLocation();
-        creationDate = new Date();
     }
 
     public static void writeCollectionToFile(Collection<Book> collection, String fileName)
@@ -30,7 +23,7 @@ public class Book implements Comparable<Book>
 
             for(Book a : collection)
             {
-                writer.write(a.name + "," + a.author + "," + a.numOfPages + "," + a.location.cupboard + "," + a.location.shelf + "," + a.creationDate.toString() + "\n");
+                writer.write(a.name + "," + a.author + "," + a.size + "," + a.location.cupboard + "," + a.location.shelf + "\n");
             }
             writer.close();
         }
@@ -54,9 +47,8 @@ public class Book implements Comparable<Book>
                 String[] values = line.split(separator);
                 book.setName(values[0]);
                 book.setAuthor(values[1]);
-                book.setNumOfPages(Integer.valueOf(values[2]));
+                book.setSize(Integer.valueOf(values[2]));
                 book.setLocation(Integer.valueOf(values[3]), Integer.valueOf(values[4]));
-                book.setCreationDate(new Date());
                 collection.add(book);
             }
 
@@ -69,6 +61,10 @@ public class Book implements Comparable<Book>
 
     }
 
+    public String toString()
+    {
+        return "NAME: " + name + ", AUTHOR: " + author + ", " + size + " PAGES, LOCATION: CUPBOARD " + location.cupboard + ", SHELF " + location.shelf + "\n";
+    }
 
 
     public String getName()
@@ -91,14 +87,14 @@ public class Book implements Comparable<Book>
         this.author = author;
     }
 
-    public int getNumOfPages()
+    public int getSize()
     {
-        return numOfPages;
+        return size;
     }
 
-    public void setNumOfPages(int numOfPages)
+    public void setSize(int size)
     {
-        this.numOfPages = numOfPages;
+        this.size = size;
     }
 
     public BookLocation getLocation()
@@ -112,15 +108,6 @@ public class Book implements Comparable<Book>
         this.location.shelf = shelf;
     }
 
-    public void setCreationDate(Date creationDate)
-    {
-        this.creationDate = creationDate;
-    }
-
-    public Date getCreationDate()
-    {
-        return creationDate;
-    }
 
     @Override
     public int compareTo(Book o)
