@@ -78,7 +78,7 @@ public class Book implements Comparable<Book>
        // return "NAME: " + name + ", AUTHOR: " + author + ", " + size + " PAGES, LOCATION: CUPBOARD " + location.cupboard + ", SHELF " + location.shelf +  " "
                 //+ zonedDateTime.withZoneSameInstant(zoneId).format(DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm")) +"\n";
         //          + DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime.withZoneSameInstant(zoneId)) +"\n";
-        return String.format("| %23s | %15s | %4d | %5d | %5d | %15s |\n", name, author, size, location.cupboard, location.shelf, DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime.withZoneSameInstant(zoneId)));
+        return String.format("| %23s | %15s | %5d | %6d | %6d | %15s |\n", name, author, size, location.cupboard, location.shelf, DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime.withZoneSameInstant(zoneId)));
     }
 
     public String toJSONString()

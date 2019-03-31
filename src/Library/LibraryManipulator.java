@@ -103,22 +103,22 @@ public class LibraryManipulator
         String zoneName = scanner.next();
         switch (zoneName)
         {
-            case("RU"):
+            case("ru"):
                 locale = new Locale("ru", "RU");
                 zoneId = ZoneId.of("Europe/Moscow");
                 break;
 
-            case("NZ"):
+            case("nz"):
                 locale = new Locale("en", "NZ");
                 zoneId = ZoneId.of("NZ");
                 break;
 
-            case("SK"):
+            case("sk"):
                 locale = new Locale("sk");
                 zoneId = ZoneId.of("Europe/Bratislava");
                 break;
 
-            case("HU"):
+            case("hu"):
                 locale = new Locale("hu");
                 zoneId = ZoneId.of("Europe/Budapest");
                 break;
@@ -137,14 +137,13 @@ public class LibraryManipulator
 
     private void show()
     {
-        System.out.printf("| %23s | %15s | %4s | %5s | %5s | %15s |\n",
+        System.out.printf("| %23s | %15s | %5s | %6s | %6s | %15s |\n",
                 bundle.getObject("name"),
                 bundle.getObject("author"),
                 bundle.getObject("size"),
                 bundle.getObject("cupboard"),
                 bundle.getObject("shelf"),
                 bundle.getObject("created"));
-        System.out.print(bundle.getObject("name")+"\n");
         for (Book a : collection)
             System.out.print(a.toString(zoneId));
     }
