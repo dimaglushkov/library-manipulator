@@ -23,7 +23,6 @@ public class LibraryManipulator
     private ResourceBundle bundle;
 
 
-
     public LibraryManipulator(PriorityQueue<Book> collection, String fileName)
     {
         this.collection = collection;
@@ -31,7 +30,9 @@ public class LibraryManipulator
         this.zoneId = ZoneId.of("Europe/Moscow");
         this.locale = new Locale("ru", "RU");
         this.bundle = ResourceBundle.getBundle("resources.lang", locale);
-
+        for (Book a: collection)
+            a.changeZone(zoneId);
+         
     }
 
     public void start()
