@@ -1,6 +1,7 @@
-package lab5.Library;
+package Library;
 
 import java.io.*;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 
 public class Book implements Comparable<Book>
@@ -9,6 +10,7 @@ public class Book implements Comparable<Book>
     private String author;
     private int size;
     private BookLocation location;
+    private ZonedDateTime dateTime;
 
     public Book()
     {
@@ -65,7 +67,8 @@ public class Book implements Comparable<Book>
 
     public String toString()
     {
-        return "NAME: " + name + ", AUTHOR: " + author + ", " + size + " PAGES, LOCATION: CUPBOARD " + location.cupboard + ", SHELF " + location.shelf + "\n";
+        //return "|NAME: " + name + ", AUTHOR: " + author + ", " + size + " PAGES, LOCATION: CUPBOARD " + location.cupboard + ", SHELF " + location.shelf + "\n";
+        return String.format("| %23s | %15s | %4d | %8d | %5d |\n", name, author, size, location.cupboard, location.shelf);
     }
 
     public String toJSONString()

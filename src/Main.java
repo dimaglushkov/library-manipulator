@@ -1,7 +1,5 @@
-package lab5;
-
-import lab5.Library.Book;
-import lab5.Library.LibraryManipulator;
+import Library.Book;
+import Library.LibraryManipulator;
 
 import java.io.File;
 import java.util.PriorityQueue;
@@ -9,7 +7,7 @@ import java.util.Scanner;
 
 
 
-public class lab5
+public class Main
 {
     public static void main(String[] args)
     {
@@ -30,6 +28,7 @@ public class lab5
             System.out.print("This file does not exist");
             return;
         }
+
 
 
         PriorityQueue<Book> queue = new PriorityQueue<>(20, Book::compareTo);

@@ -1,4 +1,4 @@
-package lab5.Library;
+package Library;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -78,6 +78,7 @@ public class LibraryManipulator
 
     private void show()
     {
+        System.out.print(String.format("| %23s | %15s | SIZE | CUPBOARD | SHELF |\n", "NAME", "AUTHOR"));
         for (Book a : collection)
             System.out.print(a.toString());
     }

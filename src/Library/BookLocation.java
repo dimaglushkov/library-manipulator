@@ -1,6 +1,4 @@
-package lab5.Library;
-
-import lab5.lab5;
+package Library;
 
 import java.util.Random;
 
