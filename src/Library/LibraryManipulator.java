@@ -1,5 +1,6 @@
 package Library;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -7,10 +8,12 @@ import org.json.simple.parser.ParseException;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
+@SuppressWarnings("Duplicates")
 public class LibraryManipulator
 {
     private PriorityQueue<Book> collection;
     private String fileName;
+    private Scanner scanner;
 
     public LibraryManipulator(PriorityQueue<Book> collection, String fileName)
     {
@@ -20,13 +23,13 @@ public class LibraryManipulator
 
     public void start()
     {
-        Scanner scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in);
         String command;
         System.out.print("WELCOME TO LIBRARY MANAGER.\ncommands: show, show_json, add{}, remove{}, remove_first, remove_lower{}, quit\n=============================\n");
 
         do
         {
-            System.out.print("> ");
+            System.out.print(">");
             command = scanner.next();
             String bookJSONString = "";
             JSONObject bookJSON;
@@ -78,7 +81,6 @@ public class LibraryManipulator
 
     private void show()
     {
-        System.out.print(String.format("| %23s | %15s | SIZE | CUPBOARD | SHELF |\n", "NAME", "AUTHOR"));
         for (Book a : collection)
             System.out.print(a.toString());
     }
@@ -106,10 +108,9 @@ public class LibraryManipulator
             nextWord = scanner.next();
             bookJSONString += nextWord + " ";
             if (nextWord.contains("{"))
-                numOfJSONObjects++;
+                numOfJSONObjects += StringUtils.countMatches(nextWord, "{");
             if (nextWord.contains("}"))
-                numOfJSONObjects--;
-
+                numOfJSONObjects -= StringUtils.countMatches(nextWord, "}");
         }
         while (numOfJSONObjects != 0);
         try
@@ -136,7 +137,6 @@ public class LibraryManipulator
 
     private void add()
     {
-        Scanner scanner = new Scanner(System.in);
         JSONParser parser = new JSONParser();
         JSONObject bookJSON;
         String nextWord, bookJSONString ="";
@@ -146,10 +146,9 @@ public class LibraryManipulator
             nextWord = scanner.next();
             bookJSONString += nextWord + " ";
             if (nextWord.contains("{"))
-                numOfJSONObjects++;
+                numOfJSONObjects += StringUtils.countMatches(nextWord, "{");
             if (nextWord.contains("}"))
-                numOfJSONObjects--;
-
+                numOfJSONObjects -= StringUtils.countMatches(nextWord, "}");
         }
         while (numOfJSONObjects != 0);
         try
@@ -180,7 +179,6 @@ public class LibraryManipulator
 
     private void remove()
     {
-        Scanner scanner = new Scanner(System.in);
         JSONParser parser = new JSONParser();
         JSONObject bookJSON;
         String nextWord, bookJSONString ="";
@@ -190,10 +188,9 @@ public class LibraryManipulator
             nextWord = scanner.next();
             bookJSONString += nextWord + " ";
             if (nextWord.contains("{"))
-                numOfJSONObjects++;
+                numOfJSONObjects += StringUtils.countMatches(nextWord, "{");
             if (nextWord.contains("}"))
-                numOfJSONObjects--;
-
+                numOfJSONObjects -= StringUtils.countMatches(nextWord, "}");
         }
         while (numOfJSONObjects != 0);
         try
