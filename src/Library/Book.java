@@ -1,7 +1,15 @@
 package Library;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 import java.io.*;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Collection;
+
+//add {"name": , "author": , "size": , "location":{"cupboard": , "shelf": }}
 
 public class Book implements Comparable<Book>
 {
@@ -9,6 +17,7 @@ public class Book implements Comparable<Book>
     private String author;
     private int size;
     private BookLocation location;
+    private ZonedDateTime zonedDateTime;
 
     public Book()
     {
@@ -25,7 +34,7 @@ public class Book implements Comparable<Book>
 
             for(Book a : collection)
             {
-                writer.write(a.name + "," + a.author + "," + a.size + "," + a.location.cupboard + "," + a.location.shelf + "\n");
+                writer.write(a.name + "," + a.author + "," + a.size + "," + a.location.cupboard + "," + a.location.shelf + "," + a.zonedDateTime.toString() + "\n");
             }
             writer.close();
         }
@@ -51,6 +60,7 @@ public class Book implements Comparable<Book>
                 book.setAuthor(values[1]);
                 book.setSize(Integer.valueOf(values[2]));
                 book.setLocation(Integer.valueOf(values[3]), Integer.valueOf(values[4]));
+                book.setZonedDateTime(ZonedDateTime.parse(values[5]));
                 collection.add(book);
             }
 
@@ -63,9 +73,12 @@ public class Book implements Comparable<Book>
 
     }
 
-    public String toString()
+    public String toString(ZoneId zoneId)
     {
-        return "NAME: " + name + ", AUTHOR: " + author + ", " + size + " PAGES, LOCATION: CUPBOARD " + location.cupboard + ", SHELF " + location.shelf + "\n";
+        return "NAME: " + name + ", AUTHOR: " + author + ", " + size + " PAGES, LOCATION: CUPBOARD " + location.cupboard + ", SHELF " + location.shelf +  " "
+                //+ zonedDateTime.withZoneSameInstant(zoneId).format(DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm")) +"\n";
+                  + DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime.withZoneSameInstant(zoneId)) +"\n";
+        //return String.format("| %23s | %15s |")
     }
 
     public String toJSONString()
@@ -115,6 +128,15 @@ public class Book implements Comparable<Book>
         this.location.shelf = shelf;
     }
 
+    public ZonedDateTime getZonedDateTime()
+    {
+        return zonedDateTime;
+    }
+
+    public void setZonedDateTime(ZonedDateTime zonedDateTime)
+    {
+        this.zonedDateTime = zonedDateTime;
+    }
 
     @Override
     public int compareTo(Book o)

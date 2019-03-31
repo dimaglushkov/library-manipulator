@@ -5,6 +5,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
@@ -14,18 +16,20 @@ public class LibraryManipulator
     private PriorityQueue<Book> collection;
     private String fileName;
     private Scanner scanner;
+    private ZoneId zoneId;
 
     public LibraryManipulator(PriorityQueue<Book> collection, String fileName)
     {
         this.collection = collection;
         this.fileName = fileName;
+        this.zoneId = ZoneId.of("NZ");
     }
 
     public void start()
     {
         scanner = new Scanner(System.in);
         String command;
-        System.out.print("WELCOME TO LIBRARY MANAGER.\ncommands: show, show_json, add{}, remove{}, remove_first, remove_lower{}, quit\n=============================\n");
+        System.out.print("WELCOME TO LIBRARY MANAGER.\ncommands: show, show_json, add{}, remove{}, remove_first, remove_lower{}, zone, quit\n=============================\n");
 
         do
         {
@@ -69,6 +73,11 @@ public class LibraryManipulator
                 case ("quit"):
                     break;
 
+                case ("zone"):
+                    setZone();
+                    break;
+
+
                 default:
                     System.out.print("Wrong command\n");
                     break;
@@ -79,15 +88,41 @@ public class LibraryManipulator
 
     }
 
+
+    private void setZone()
+    {
+        String zoneName = scanner.next();
+        switch (zoneName)
+        {
+            case("RU"):
+                zoneId = ZoneId.of("Europe/Moscow");
+                break;
+
+            case("NZ"):
+                zoneId = ZoneId.of("NZ");
+
+            case("SK"):
+                zoneId = ZoneId.of("Europe/Bratislava");
+
+            case("HU"):
+                zoneId = ZoneId.of("Europe/Budapest");
+
+            default:
+                System.out.print("Wrong zone name\n");
+                break;
+        }
+    }
+
+
     private void show()
     {
         for (Book a : collection)
-            System.out.print(a.toString());
+            System.out.print(a.toString(zoneId));
     }
 
     private void info()
     {
-        System.out.print("Collection type: PriorityQueue\nCurrently " + collection.size() + " elements stored\n" + "Storage: " + fileName + "\nFormat: csv\n");
+        System.out.print("Collection type: PriorityQueue\nCurrently " + collection.size() + " elements stored\n" + "Storage: " + fileName + "\nFormat: csv\nCurrent localization: " + zoneId.toString() + "\n");
     }
 
     private void show_json()
@@ -167,6 +202,7 @@ public class LibraryManipulator
             bookToAdd.setSize(Integer.valueOf(bookJSON.get("size").toString()));
             JSONObject locationJSON = (JSONObject) bookJSON.get("location");
             bookToAdd.setLocation(Integer.valueOf(locationJSON.get("cupboard").toString()), Integer.valueOf(locationJSON.get("shelf").toString()));
+            bookToAdd.setZonedDateTime(ZonedDateTime.now());
         } catch (NullPointerException e)
         {
             e.printStackTrace();
