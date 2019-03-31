@@ -1,7 +1,3 @@
-My book,Alex Xela,123,2,5
-c,kappa,666,26,999
-e,kappa,666,60,289
 f,kappa,666,68,21
-d,kappa,666,70,698
-e,Alex Xela,123,2,5
-e,Alex Xela,123,2,5
+f,kappa,666,68,21
+test Book,kappa,666,68,21

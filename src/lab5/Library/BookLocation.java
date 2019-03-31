@@ -1,3 +1,7 @@
+package lab5.Library;
+
+import lab5.lab5;
+
 import java.util.Random;
 
 public class BookLocation

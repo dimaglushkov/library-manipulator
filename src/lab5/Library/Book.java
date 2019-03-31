@@ -1,3 +1,5 @@
+package lab5.Library;
+
 import java.io.*;
 import java.util.Collection;
 
@@ -64,6 +66,11 @@ public class Book implements Comparable<Book>
     public String toString()
     {
         return "NAME: " + name + ", AUTHOR: " + author + ", " + size + " PAGES, LOCATION: CUPBOARD " + location.cupboard + ", SHELF " + location.shelf + "\n";
+    }
+
+    public String toJSONString()
+    {
+        return "{\"name\":\"" + name + "\", \"author\":\"" + author + "\", \"size\":" + size + ", \"location\":{\"cupboard\":" + location.cupboard + ", \"shelf\":" + location.shelf + "}}\n";
     }
 
 
