@@ -7,7 +7,9 @@ import org.json.simple.parser.ParseException;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Locale;
 import java.util.PriorityQueue;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 @SuppressWarnings("Duplicates")
@@ -17,12 +19,19 @@ public class LibraryManipulator
     private String fileName;
     private Scanner scanner;
     private ZoneId zoneId;
+    private Locale locale;
+    private ResourceBundle bundle;
+
+
 
     public LibraryManipulator(PriorityQueue<Book> collection, String fileName)
     {
         this.collection = collection;
         this.fileName = fileName;
-        this.zoneId = ZoneId.of("NZ");
+        this.zoneId = ZoneId.of("Europe/Moscow");
+        this.locale = new Locale("ru", "RU");
+        this.bundle = ResourceBundle.getBundle("resources.lang", locale);
+
     }
 
     public void start()
@@ -33,7 +42,7 @@ public class LibraryManipulator
 
         do
         {
-            System.out.print(">");
+            System.out.print("> ");
             command = scanner.next();
             String bookJSONString = "";
             JSONObject bookJSON;
@@ -95,34 +104,54 @@ public class LibraryManipulator
         switch (zoneName)
         {
             case("RU"):
+                locale = new Locale("ru", "RU");
                 zoneId = ZoneId.of("Europe/Moscow");
                 break;
 
             case("NZ"):
+                locale = new Locale("en", "NZ");
                 zoneId = ZoneId.of("NZ");
+                break;
 
             case("SK"):
+                locale = new Locale("sk");
                 zoneId = ZoneId.of("Europe/Bratislava");
+                break;
 
             case("HU"):
+                locale = new Locale("hu");
                 zoneId = ZoneId.of("Europe/Budapest");
+                break;
 
             default:
                 System.out.print("Wrong zone name\n");
                 break;
+        }
+        this.bundle = ResourceBundle.getBundle("resources.lang", locale);
+        for (Book a: collection)
+        {
+            a.changeZone(zoneId);
         }
     }
 
 
     private void show()
     {
+        System.out.printf("| %23s | %15s | %4s | %5s | %5s | %15s |\n",
+                bundle.getObject("name"),
+                bundle.getObject("author"),
+                bundle.getObject("size"),
+                bundle.getObject("cupboard"),
+                bundle.getObject("shelf"),
+                bundle.getObject("created"));
+        System.out.print(bundle.getObject("name")+"\n");
         for (Book a : collection)
             System.out.print(a.toString(zoneId));
     }
 
     private void info()
     {
-        System.out.print("Collection type: PriorityQueue\nCurrently " + collection.size() + " elements stored\n" + "Storage: " + fileName + "\nFormat: csv\nCurrent localization: " + zoneId.toString() + "\n");
+        System.out.print("Collection type: PriorityQueue\n" + collection.size() + " elements stored\n" + "Storage: " + fileName + "\nFormat: csv\nCurrent localization: " + zoneId.toString() + "\n");
     }
 
     private void show_json()
