@@ -39,7 +39,7 @@ public class LibraryManipulator
     {
         scanner = new Scanner(System.in);
         String command;
-        System.out.print("WELCOME TO LIBRARY MANAGER.\ncommands: show, show_json, add{}, remove{}, remove_first, remove_lower{}, zone, quit\n=============================\n");
+        System.out.print("WELCOME TO LIBRARY MANAGER.\ncommands: show, show_json, add{}, remove{}, remove_first, remove_lower{}, zone, quit\n");
         info();
         do
         {
@@ -151,7 +151,7 @@ public class LibraryManipulator
 
     private void info()
     {
-        System.out.print("Collection type: PriorityQueue\n" + collection.size() + " elements stored\n" + "Storage: " + fileName + "\nFormat: csv\nCurrent localization: " + zoneId.toString() + "\nAvailable zones: \n\tru - Russia (Moscow)\n\tnz - New Zealand\n\tsk - Slovakia (Bratislava)\n\thu - Hungary (Budapest)\n");
+        System.out.print("----------------------------\n| Collection type: PriorityQueue\n| " + collection.size() + " elements stored\n" + "| Storage: " + fileName + "\n| Format: csv\n| Current localization: " + zoneId.toString() + "\n| Available zones: \n|\tru - Russia (Moscow)\n|\tnz - New Zealand\n|\tsk - Slovakia (Bratislava)\n|\thu - Hungary (Budapest)\n----------------------------\n");
     }
 
     private void show_json()
