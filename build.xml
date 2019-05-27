@@ -1,18 +1,52 @@
-<project name="library-manipulator">
+<project name="${project-name}">
+
+    <property file="build.properties"/>
 
     <target name="compile" description="Compile source files">
-        <mkdir dir="${compiled}"/>
-
+        <mkdir dir="${compile-dest}"/>
+        <javac includeantruntime="false" srcdir="${source}" destdir="${compile-dest}" >
+            <classpath>
+                <pathelement path="lib/commons-lang3-3.9.jar"/>
+                <pathelement path="lib/json-simple-1.1.1.jar"/>
+            </classpath>
+        </javac>
+        <copy todir="${compile-dest}/resources">
+            <fileset dir="${source}/resources" />
+        </copy>
     </target>
+
+
+
+    <target name="run">
+        <java classname="Main">
+            <classpath>
+                <pathelement path="${compile-dest}"/>
+                <pathelement path="${compile-dest}/Library"/>
+                <pathelement path="lib/commons-lang3-3.9.jar"/>
+                <pathelement path="lib/json-simple-1.1.1.jar"/>
+                <pathelement path="src/resources/"/>
+            </classpath>
+            <arg value="book-list-example.txt"/>
+        </java>
+    </target>
+
 
 
     <target name="build" depends="compile">
-
+        <buildnumber />
+        <jar jarfile="${build-dest}/${project-name}.jar" basedir="${compile-dest}">
+            <manifest>
+                <attribute name="Main-Class" value="Main" />
+                <attribute name="Package-Version" value="${build-version}" />
+                <attribute name="Class-Path" value="../../lib/json-simple-1.1.1.jar ../../lib/commons-lang3-3.9.jar" />
+            </manifest>
+        </jar>
     </target>
 
 
-    <target name="clean">
 
+    <target name="clean" description="Remove all artifacts">
+        <delete dir="${dest}"/>
     </target>
 
 
