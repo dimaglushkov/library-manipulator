@@ -8,6 +8,7 @@
             <classpath>
                 <pathelement path="lib/commons-lang3-3.9.jar"/>
                 <pathelement path="lib/json-simple-1.1.1.jar"/>
+                <pathelement path="lib/junit-4.12.jar"/>
             </classpath>
         </javac>
         <copy todir="${compile-dest}/resources">
@@ -15,9 +16,7 @@
         </copy>
     </target>
 
-
-
-    <target name="run">
+    <target name="run" depends="compile">
         <java classname="Main">
             <classpath>
                 <pathelement path="${compile-dest}"/>
@@ -30,10 +29,7 @@
         </java>
     </target>
 
-
-
-    <target name="build" depends="compile">
-        <buildnumber />
+    <target name="build" depends="compile" description="Build .jar archive">
         <jar jarfile="${build-dest}/${project-name}.jar" basedir="${compile-dest}">
             <manifest>
                 <attribute name="Main-Class" value="Main" />
@@ -43,15 +39,24 @@
         </jar>
     </target>
 
-
-
     <target name="clean" description="Remove all artifacts">
         <delete dir="${dest}"/>
     </target>
 
-
-    <target name="test" depends="build">
-
+    <target name="test" depends="compile">
+        <junit fork="true" >
+            <classpath>
+                <pathelement path="lib/junit-4.12.jar"/>
+                <pathelement path="lib/hamcrest-core-1.3.jar"/>
+                <pathelement path="lib/commons-lang3-3.9.jar"/>
+                <pathelement path="lib/json-simple-1.1.1.jar"/>
+                <pathelement path="${compile-dest}"/>
+                <pathelement path="${compile-dest}/Library"/>
+            </classpath>
+            <test name="${test-class}">
+                <formatter type="plain" usefile="false"/>
+            </test>
+        </junit>
     </target>
 
 
