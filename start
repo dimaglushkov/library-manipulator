@@ -1,0 +1,1 @@
+ant build  && java -jar out/build/library-manipulator.jar book-list-example.txt

@@ -25,11 +25,9 @@ public class Main
         File file = new File(fileName);
         if (!file.exists())
         {
-            System.out.print("This file does not exist");
+            System.out.print("This file does not exist\n");
             return;
         }
-
-
 
         PriorityQueue<Book> queue = new PriorityQueue<>(20, Book::compareTo);
         Book.readCollectionFromFile(queue, fileName);
