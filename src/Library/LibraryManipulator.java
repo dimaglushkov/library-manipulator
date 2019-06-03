@@ -45,10 +45,6 @@ public class LibraryManipulator
         {
             System.out.print("> ");
             command = scanner.next();
-            String bookJSONString = "";
-            JSONObject bookJSON;
-            String nextWord;
-            int numOfJSONObjects = 0;
             switch (command)
             {
 
@@ -65,7 +61,8 @@ public class LibraryManipulator
                     break;
 
                 case ("remove_lower"):
-                    remove_lower();
+                    if(!remove_lower(scan_JSON()))
+                        System.out.print("Error while removing lower");
                     break;
 
                 case ("remove_first"):
@@ -73,18 +70,21 @@ public class LibraryManipulator
                     break;
 
                 case ("add"):
-                    add();
+                    if (!add(scan_JSON()))
+                        System.out.print("Error while adding");
                     break;
 
                 case ("remove"):
-                    remove();
+                    if (!remove(scan_JSON()))
+                        System.out.print("Error while removing");
                     break;
 
                 case ("quit"):
                     break;
 
                 case ("zone"):
-                    setZone();
+                    if (!setZone(scanner.next()))
+                        System.out.print("Wrong zone");
                     break;
 
 
@@ -99,9 +99,8 @@ public class LibraryManipulator
     }
 
 
-    private void setZone()
+    public boolean setZone(String zoneName)
     {
-        String zoneName = scanner.next();
         switch (zoneName)
         {
             case("ru"):
@@ -125,14 +124,14 @@ public class LibraryManipulator
                 break;
 
             default:
-                System.out.print("Wrong zone name\n");
-                break;
+                System.err.print("Wrong zone name\n");
+                return false;
         }
         this.bundle = ResourceBundle.getBundle("resources.lang", locale);
         for (Book a: collection)
-        {
             a.changeZone(zoneId);
-        }
+        System.out.print("Zone changed successfully!\n");
+        return true;
     }
 
 
@@ -160,30 +159,18 @@ public class LibraryManipulator
             System.out.print(a.toJSONString());
     }
 
-    private void remove_lower()
+    public boolean remove_lower(String bookJSONString)
     {
-        Scanner scanner = new Scanner(System.in);
         JSONParser parser = new JSONParser();
         JSONObject bookJSON;
-        String nextWord, bookJSONString ="";
-        int numOfJSONObjects = 0;
-        do
-        {
-            nextWord = scanner.next();
-            bookJSONString += nextWord + " ";
-            if (nextWord.contains("{"))
-                numOfJSONObjects += StringUtils.countMatches(nextWord, "{");
-            if (nextWord.contains("}"))
-                numOfJSONObjects -= StringUtils.countMatches(nextWord, "}");
-        }
-        while (numOfJSONObjects != 0);
+
         try
         {
             bookJSON = (JSONObject) parser.parse(bookJSONString);
         } catch (ParseException e)
         {
             e.printStackTrace();
-            return;
+            return false;
         }
         Book bookRemoveLower = new Book();
         try
@@ -192,36 +179,44 @@ public class LibraryManipulator
         } catch (NullPointerException e)
         {
             System.out.print("Set \"name\" value \n");
-            return;
+            return false;
         }
         int oldSize = collection.size();
         collection.removeIf((Book a) -> a.compareTo(bookRemoveLower) < 0);
         System.out.print(oldSize - collection.size() + " elements removed\n");
+        return true;
     }
 
-    private void add()
+    private String scan_JSON()
     {
-        JSONParser parser = new JSONParser();
-        JSONObject bookJSON;
-        String nextWord, bookJSONString ="";
+        String nextWord;
+        StringBuilder bookJSONString = new StringBuilder();
         int numOfJSONObjects = 0;
         do
         {
             nextWord = scanner.next();
-            bookJSONString += nextWord + " ";
+            bookJSONString.append(nextWord).append(" ");
             if (nextWord.contains("{"))
                 numOfJSONObjects += StringUtils.countMatches(nextWord, "{");
             if (nextWord.contains("}"))
                 numOfJSONObjects -= StringUtils.countMatches(nextWord, "}");
         }
         while (numOfJSONObjects != 0);
+        return bookJSONString.toString();
+    }
+
+    public boolean add(String bookJSONString)
+    {
+        JSONParser parser = new JSONParser();
+        JSONObject bookJSON;
+
         try
         {
             bookJSON = (JSONObject) parser.parse(bookJSONString);
         } catch (ParseException e)
         {
-            e.printStackTrace();
-            return;
+            System.err.print("Error while parsing JSON object\n");
+            return false;
         }
         Book bookToAdd = new Book();
         try
@@ -234,37 +229,25 @@ public class LibraryManipulator
             bookToAdd.setZonedDateTime(ZonedDateTime.now());
         } catch (NullPointerException e)
         {
-            e.printStackTrace();
-            System.out.print("Please fill every field\n");
-            return;
+            System.err.print("Wrong input format\n");
+            return false;
         }
         collection.offer(bookToAdd);
         System.out.print("Element added!\n");
+        return true;
     }
 
-    private void remove()
+    public boolean remove(String bookJSONString)
     {
         JSONParser parser = new JSONParser();
         JSONObject bookJSON;
-        String nextWord, bookJSONString ="";
-        int numOfJSONObjects = 0;
-        do
-        {
-            nextWord = scanner.next();
-            bookJSONString += nextWord + " ";
-            if (nextWord.contains("{"))
-                numOfJSONObjects += StringUtils.countMatches(nextWord, "{");
-            if (nextWord.contains("}"))
-                numOfJSONObjects -= StringUtils.countMatches(nextWord, "}");
-        }
-        while (numOfJSONObjects != 0);
         try
         {
             bookJSON = (JSONObject) parser.parse(bookJSONString);
         } catch (ParseException e)
         {
             e.printStackTrace();
-            return;
+            return false;
         }
         Book bookToRemove = new Book();
         try
@@ -275,10 +258,11 @@ public class LibraryManipulator
         } catch (NullPointerException e)
         {
             System.out.print("Please fill name, author, size fields\n");
-            return;
+            return false;
         }
         collection.remove(bookToRemove);
         System.out.print("Element removed!\n");
+        return true;
     }
 
     private void remove_first()

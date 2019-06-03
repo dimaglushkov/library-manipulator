@@ -1,7 +1,5 @@
 package Library;
 
-import com.sun.xml.internal.ws.util.StringUtils;
-
 import java.io.*;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -9,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Collection;
 
+//Add format:
 //add {"name": , "author": , "size": , "location":{"cupboard": , "shelf": }}
 
 public class Book implements Comparable<Book>
@@ -75,9 +74,6 @@ public class Book implements Comparable<Book>
 
     public String toString(ZoneId zoneId)
     {
-       // return "NAME: " + name + ", AUTHOR: " + author + ", " + size + " PAGES, LOCATION: CUPBOARD " + location.cupboard + ", SHELF " + location.shelf +  " "
-                //+ zonedDateTime.withZoneSameInstant(zoneId).format(DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm")) +"\n";
-        //          + DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime.withZoneSameInstant(zoneId)) +"\n";
         return String.format("| %23s | %15s | %5d | %6d | %6d | %15s |\n", name, author, size, location.cupboard, location.shelf, DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(zonedDateTime.withZoneSameInstant(zoneId)));
     }
 
@@ -85,7 +81,6 @@ public class Book implements Comparable<Book>
     {
         return "{\"name\":\"" + name + "\", \"author\":\"" + author + "\", \"size\":" + size + ", \"location\":{\"cupboard\":" + location.cupboard + ", \"shelf\":" + location.shelf + "}}\n";
     }
-
 
     public String getName()
     {
