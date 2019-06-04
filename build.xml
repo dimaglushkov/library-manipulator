@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <project name="${project-name}">
 
     <property file="build.properties"/>
@@ -16,7 +17,7 @@
         </copy>
     </target>
 
-    <target name="run" depends="compile">
+    <target name="run" depends="compile" description="Run compiled classes">
         <java classname="Main">
             <classpath>
                 <pathelement path="${compile-dest}"/>
@@ -43,7 +44,7 @@
         <delete dir="${dest}"/>
     </target>
 
-    <target name="test" depends="compile">
+    <target name="test" depends="compile" description="Run unit tests">
         <junit fork="true" >
             <classpath>
                 <pathelement path="lib/junit-4.12.jar"/>
@@ -59,11 +60,11 @@
         </junit>
     </target>
 
-
     <target name="xml">
-
+        <xmlvalidate lenient="yes">
+            <fileset dir="." includes="**/*.xml"/>
+        </xmlvalidate>
     </target>
-
 
     <target name="alt" depends="build">
 
