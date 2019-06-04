@@ -65,16 +65,7 @@ public class Tests
 
         assertTrue(lm.remove("{\"name\":\"D\", \"author\":\"AD\", \"size\":100}"));
         assertFalse(lm.remove("{\"name\":\"D\", \"MISTAKE\":\"AD\", \"size\":100}"));
-        assertFalse(lm.remove("{\"name\":\"asfasf\", \"author\":\"A123123\", \"size\":0100}"));
+        assertTrue(lm.remove("{\"name\":\"asfasf\", \"author\":\"A123123\", \"size\":0100}"));
     }
-
-
-/*    @After
-    public void clean()
-    {
-        file.delete();
-    }*/
-
-
 
 }
