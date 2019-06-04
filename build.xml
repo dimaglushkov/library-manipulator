@@ -66,8 +66,24 @@
         </xmlvalidate>
     </target>
 
-    <target name="alt" depends="build">
-
+    <target name="alt">
+        <move file="${source}/Library/Book.java" tofile="${source}/Library/Kniga.java"/>
+        <move file="${source}/Library/BookLocation.java" tofile="${source}/Library/KnigaMesto.java"/>
+        <replace dir="${source}" token="Book" value="Kniga"/>
+        <replace dir="${source}" token="Location" value="Mesto"/>
+        <replace dir="${source}" token="book" value="kniga"/>
+        <replace dir="${source}" token="shelf" value="polka"/>
+        <replace dir="${source}" token="cupboard" value="shkaf"/>
+        <replaceregexp file="build.properties" match="build-dest=out/build" replace="build-dest=out/alt"/>
+        <antcall target="build"/>
+        <replace dir="${source}" token="kniga" value="book"/>
+        <replace dir="${source}" token="polka" value="shelf"/>
+        <replace dir="${source}" token="shkaf" value="cupboard"/>
+        <replaceregexp file="build.properties" match="build-dest=out/alt" replace="build-dest=out/build"/>
+        <replace dir="${source}" token="Mesto" value="Location"/>
+        <replace dir="${source}" token="Kniga" value="Book"/>
+        <move file="${source}/Library/Kniga.java" tofile="${source}/Library/Book.java"/>
+        <move file="${source}/Library/KnigaMesto.java" tofile="${source}/Library/BookLocation.java"/>
     </target>
 
 </project>
