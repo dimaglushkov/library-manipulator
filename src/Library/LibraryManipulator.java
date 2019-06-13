@@ -62,7 +62,7 @@ public class LibraryManipulator
 
                 case ("remove_lower"):
                     if(!remove_lower(scan_JSON()))
-                        System.out.print("Error while removing lower");
+                        System.err.print("Error while removing lower");
                     break;
 
                 case ("remove_first"):
@@ -70,13 +70,19 @@ public class LibraryManipulator
                     break;
 
                 case ("add"):
-                    if (!add(scan_JSON()))
-                        System.out.print("Error while adding");
+//                    if (!add(scan_JSON()))
+                    try{
+                        add(scan_JSON());
+                    }
+                    catch (Exception e)
+                    {
+                        System.err.print(e.getMessage());
+                    }
                     break;
 
                 case ("remove"):
                     if (!remove(scan_JSON()))
-                        System.out.print("Error while removing");
+                        System.err.print("Error while removing");
                     break;
 
                 case ("quit"):
@@ -84,7 +90,7 @@ public class LibraryManipulator
 
                 case ("zone"):
                     if (!setZone(scanner.next()))
-                        System.out.print("Wrong zone");
+                        System.err.print("Wrong zone");
                     break;
 
 
@@ -205,7 +211,7 @@ public class LibraryManipulator
         return bookJSONString.toString();
     }
 
-    public boolean add(String bookJSONString)
+    public boolean add(String bookJSONString) throws Exception
     {
         JSONParser parser = new JSONParser();
         JSONObject bookJSON;
@@ -215,8 +221,7 @@ public class LibraryManipulator
             bookJSON = (JSONObject) parser.parse(bookJSONString);
         } catch (ParseException e)
         {
-            System.err.print("Error while parsing JSON object\n");
-            return false;
+            throw new Exception("Error while parsing JSON object\n");
         }
         Book bookToAdd = new Book();
         try
@@ -257,7 +262,7 @@ public class LibraryManipulator
             bookToRemove.setSize(Integer.valueOf(bookJSON.get("size").toString()));
         } catch (NullPointerException e)
         {
-            System.out.print("Please fill name, author, size fields\n");
+            System.err.print("Please fill name, author, size fields\n");
             return false;
         }
         collection.remove(bookToRemove);
