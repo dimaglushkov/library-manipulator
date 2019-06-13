@@ -10,9 +10,12 @@ public class Main
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
         try
         {
-            ObjectName mBeanName = new ObjectName("MBeans:type=InputWatcher");
+            ObjectName inputWatcherName = new ObjectName("MBeans:type=InputWatcher");
+            ObjectName averageTimerName = new ObjectName("MBeans:type=AverageTimer");
             InputWatcher inputWatcher = new InputWatcher();
-            mBeanServer.registerMBean(inputWatcher, mBeanName);
+            AverageTimer averageTimer = new AverageTimer();
+            mBeanServer.registerMBean(inputWatcher, inputWatcherName);
+            mBeanServer.registerMBean(averageTimer, averageTimerName);
             inputWatcher.Input("{\"name\":\"A\", \"author\":\"B\", \"size\":1, \"location\":{\"cupboard\":1, \"shelf\":1}}\n");
             inputWatcher.Input("{\"name\":\"D\", \"asfthor\":\"AD\", \"size\":100, \"location\":{\"cupboard\":1, \"shelf\":231}}\n");
             Thread.sleep(Long.MAX_VALUE);
