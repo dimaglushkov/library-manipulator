@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.Serializable;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Locale;
@@ -13,7 +14,7 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 
 @SuppressWarnings("Duplicates")
-public class LibraryManipulator
+public class LibraryManipulator implements Serializable
 {
     private PriorityQueue<Book> collection;
     private String fileName;
