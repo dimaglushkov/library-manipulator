@@ -2,6 +2,7 @@ import Library.LibraryManipulator;
 import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
+import sun.reflect.annotation.ExceptionProxy;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,17 +31,30 @@ public class Tests
     public void Test1()
     {
         String toAddWrong = "{kappapride : {";
-        assertTrue((lm.add(toAdd[0]) && lm.add(toAdd[1])));
-        assertFalse(lm.add(toAddWrong));
-        assertTrue((lm.add(toAdd[2]) && lm.add(toAdd[3])));
-
+        try
+        {
+            assertTrue((lm.add(toAdd[0]) && lm.add(toAdd[1])));
+            assertFalse(lm.add(toAddWrong));
+            assertTrue((lm.add(toAdd[2]) && lm.add(toAdd[3])));
+        }
+        catch (Exception e){
+            System.err.print(e.getMessage());
+        }
     }
 
     @Test
     public void Test2()
     {
         for(String it : toAdd)
-            lm.add(it);
+        {
+            try
+            {
+                lm.add(it);
+            } catch (Exception e)
+            {
+                System.out.print(e.getMessage());
+            }
+        }
         assertTrue(lm.remove_lower("{\"name\" : \"B\"}"));
         assertTrue(lm.remove_lower("{\"name\" : \"0\"}"));
         assertTrue(lm.remove_lower("{\"name\" : \"Z\"}"));
@@ -51,7 +65,15 @@ public class Tests
     public void Test3()
     {
         for(String it : toAdd)
-            lm.add(it);
+        {
+            try
+            {
+                lm.add(it);
+            } catch (Exception e)
+            {
+                System.out.print(e.getMessage());
+            }
+        }
         assertTrue(lm.setZone("hu"));
         assertFalse(lm.setZone("kappa"));
         assertTrue(lm.setZone("ru"));
@@ -61,7 +83,15 @@ public class Tests
     public void Test4()
     {
         for(String it : toAdd)
-            lm.add(it);
+        {
+            try
+            {
+                lm.add(it);
+            } catch (Exception e)
+            {
+                System.out.print(e.getMessage());
+            }
+        }
 
         assertTrue(lm.remove("{\"name\":\"D\", \"author\":\"AD\", \"size\":100}"));
         assertFalse(lm.remove("{\"name\":\"D\", \"MISTAKE\":\"AD\", \"size\":100}"));
