@@ -9,3 +9,7 @@ Written as a part of 'programming' course in ITMO University.
 * test - execution of unit-tests
 * xml - validation of all xml-files in project
 * alt - alternative build
+
+## Contains MBeans:
+* AverageTimer - shows the average time between inputs
+* InputWatcher - counts amount of successfull and unsuccessfull insertions, sends notification on non-json input.
